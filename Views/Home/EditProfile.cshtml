@@ -1,0 +1,171 @@
+﻿@model BYR.Models.User
+@{ViewBag.Action = "SignUp";}
+<!-- Top content -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,700">
+<link rel="stylesheet" href="~/Content/css/assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="~/Content/css/assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="~/Content/css/assets/css/animate.css">
+<link rel="stylesheet" href="~/Content/css/assets/css/style.css">
+<link rel="stylesheet" href="~/Content/css/assets/css/media-queries.css">
+<script src="~/Content/css/assets/js/jquery-1.11.1.min.js"></script>
+<div class="top-content">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3 r-form-1-box wow fadeInUp">
+                <div class="r-form-1-top">
+                    <div class="r-form-1-top-left">
+                        <h3>User Profile </h3>
+                        <p>Fill in the form below to get instant access:</p>
+                    </div>
+                    <div class="r-form-1-top-right">
+                        <i class="fa fa-pencil"></i>
+                    </div>
+                </div>
+                <div class="r-form-1-bottom">
+                    @using (Html.BeginForm("UpdateProfile", "Home", FormMethod.Post, new { enctype = "multipart/form-data", Id = "signu" }))
+                    {
+                        @Html.HiddenFor(m => Model.Id)
+                        @Html.ValidationMessageFor(m => Model.Id)
+                        @Html.ValidationMessageFor(m => Model.type)
+                        @Html.ValidationMessageFor(m => Model.status)
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => Model.firstName, new { @placeholder = "First name...", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.firstName)
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => Model.lastName, new { @placeholder = "Last name...", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.lastName)
+                        </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => Model.email, new { @placeholder = "Email...", @class = "form-control",@readonly="" })
+                                @Html.ValidationMessageFor(m => Model.email)
+                            </div>
+                            <div align="center" id="emailN"></div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => Model.username, new { @placeholder = "Username...", @class = "form-control", @readonly = "" })
+                                @Html.ValidationMessageFor(m => Model.username)
+                            </div>
+                            <div align="center" id="userN"></div>
+                            <div class="form-group">
+                                @Html.HiddenFor(m => Model.password, new { @placeholder = "Password...", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => Model.password)
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => Model.age, new { @placeholder = "Age...", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => Model.age)
+                            </div>
+                            <div class="form-group">
+                                @Html.HiddenFor(m => Model.secQ, new { @placeholder = "Secret Question...", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => Model.secQ)
+                            </div>
+                            <div class="form-group">
+                                @Html.HiddenFor(m => Model.secA, new { @placeholder = "Secret Answer...", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => Model.secA)
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.profilePic, new { type = "file", @class = "form-control", @align = "left", @style = "display:inline ; width:350px" })
+
+
+                                <img id="pic" align="right" height="70" width="70" style="margin-right:40px" src="../SiteImages//profile.jpg">
+                                @Html.ValidationMessageFor(m => Model.profilePic)
+                            </div>
+                            <div style="margin-top:40px" align="center" id="msgbox"></div>
+                            <div align="center" Id="formError"></div>
+                            <button type="submit" id="btn_submit" class="btn">Save Changes!</button>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#username').focusout(function () {
+
+            var userName = $('#username').val();
+            if (userName != "") {
+
+
+                $('#userN').show();
+                $.getJSON("/Home/CheckUserName?UserName=" + userName, function (data) {
+
+                    if (data != "No") {
+                        $("#userN").fadeTo(200, 0.1, function () {
+                            $(this).html('User already exists').removeClass().addClass('myerror').fadeTo(900, 1);
+                            $('#formError').html('Please make sure username and Email exists').removeClass().addClass('myerror1').fadeTo(900, 1);
+                            $('#btn_submit').attr("disabled", true);
+                        });
+
+
+
+                    }
+                    else {
+                        $("#userN").fadeTo(200, 0.1, function () {
+                            $(this).html('User Name is available').removeClass().addClass('myerror').fadeTo(900, 1);
+                            $('#formError').html('').removeClass().addClass('myerror').fadeTo(900, 1);
+                            $('#btn_submit').attr("disabled", false);
+                        });
+
+                    }
+                });
+            }
+            else {
+                $("#userN").html('');
+               }
+        });
+
+        $('#email').focusout(function () {
+
+            var email = $('#email').val();
+            if (email != "") {
+
+                //alert('User Name ='+ userName);
+
+                $.getJSON("/Home/checkEmail?email=" + email, function (data) {
+
+                    if (data) {
+                        $("#emailN").fadeTo(200, 0.1, function () {
+
+                       $(this).html('Email already exists').removeClass().addClass('myerror').fadeTo(900, 1);
+                       $('#formError').html('Please make sure username and Email exists').removeClass().addClass('myerror').fadeTo(900, 1);
+                       $('#btn_submit').attr("disabled", false);
+                        });
+
+                    }
+                    else {
+
+
+                        $("#emailN").fadeTo(200, 0.1, function () {
+                            $(this).html('Email is available').removeClass().addClass('myerror').fadeTo(900, 1);
+                            $('#formError').html('').removeClass().addClass('myerror').fadeTo(900, 1);
+                            $('#btn_submit').attr("disabled", false);
+                        });
+
+                    }
+                });
+            }
+            else {
+                $("#emailN").html('');
+
+            }
+        });
+
+        $("#profilePic").change(function () {
+            var fileName = $(this).val();
+            var tmppath = URL.createObjectURL(event.target.files[0]);
+            $('#pic').attr('src', tmppath);
+        });
+
+    });
+
+</script>
+
+<script src="~/Content/css/assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/Content/css/assets/js/jquery.backstretch.min.js"></script>
+<script src="~/Content/css/assets/js/wow.min.js"></script>
+<script src="~/Content/css/assets/js/retina-1.1.0.min.js"></script>
+<script src="~/Content/css/assets/js/scripts.js"></script>

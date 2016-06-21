@@ -1,0 +1,258 @@
+﻿
+@model BYR.Models.Hotel
+
+<script src="~/Scripts/script.js"></script>
+<link rel="stylesheet" href="~/Content/css/style.css">
+<link rel="stylesheet" href="~/Content/css/stylesheet.css">
+<style>
+  
+</style>
+
+
+<section class="content">
+    <div class="ic"></div>
+    <div class="container">
+        <div class="row">
+            <div class="grid_8">
+    <h2>@Model.name</h2>
+    <img src="~/Content/HotelImages/@Model.picturePath" height="250" width="160" alt="" class="img_inner fleft inn__1">
+    <div class="extra_wrapper">
+        <p>Address:  @Model.address</p>
+        <p>Phone #  @Model.phoneNumber</p>
+        <p>Fax #:  @Model.faxNo</p>
+        <p>Max Room Price : @Model.MaxPrice</p>
+        <p>
+            Rating : <span class="starRating">
+                @{
+
+                    for (int j = 0; j < @Model.adminRating; j++)
+                    {
+
+                        <input id="rating1" type="radio" name="rating" value="">
+                        <label for="rating1"> 1 </label>
+
+                    }
+                }
+
+            </span>
+        </p>
+
+    </div>
+
+    <!-- ==================== here goes the leave reply div ========== -->
+                <div class="grid_4"
+                    <br>
+                    
+                    @{
+                        var user = (BYR.Models.User)Session["User"];
+                        BYR.Models.Comment com = new BYR.Models.Comment();
+                        if (Session["User"] != null)
+                        {
+                            <h2>Leave A Comment</h2>
+                            using (Html.BeginForm("Comment", "Hotel", FormMethod.Post))
+                            {
+
+                                <div class="panel-body panel-300" align="left">
+                                    <div class="tmTextarea" id="bookingForm">
+                                        @Html.TextAreaFor(model => com.comment1, new { @placeholder = "Leave a Comment.." })
+
+                                    </div>
+
+
+
+                                </div>
+                                <span>Rating:</span>
+                                <span class="starR">
+                                    <input id="rating5" type="radio" name="rating" value="5">
+                                    <label for="rating5">5</label>
+                                    <input id="rating4" type="radio" name="rating" value="4">
+                                    <label for="rating4">4</label>
+                                    <input id="rating3" type="radio" name="rating" value="3">
+                                    <label for="rating3">3</label>
+                                    <input id="rating2" type="radio" name="rating" value="2">
+                                    <label for="rating2">2</label>
+                                    <input id="rating1" type="radio" name="rating" value="1" checked>
+                                    <label for="rating1">1</label>
+                                </span>
+                                @Html.HiddenFor(model => Model.Id)
+                                @Html.HiddenFor(model => user.firstName)
+                                @Html.HiddenFor(model => user.Id)
+                                @Html.HiddenFor(model => user.lastName)
+
+                                <button type="submit" name="button" class="button1" value="Send" style="background-color:#008000;width:100px">Send </button>
+                            }
+                        }
+                    }
+                </div>
+
+
+
+
+
+                    <!-- ==================== here goes the leave reply div ========== -->
+
+
+                    <div class="clear"></div>
+                    @{
+
+                        if (ViewBag.Comment != null)
+                        {
+                            <h2>Users comments</h2>
+                            <div class="grind_5" style="background: #e2e2e2">
+
+                                <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css" />
+
+
+                                <div class="well">
+
+                                    <div class="media">
+
+                                        <a class="pull-left">
+
+                                        </a>
+                                        <div class="media-body">
+                                            <h4 class="media-heading"></h4>
+                                            @{
+                                                List<BYR.Models.Comment> comment = ViewBag.Comment;
+                                                foreach (var comments in comment)
+                                                {
+
+
+                                                    <br /><br />
+                                                    <div id="profilePic"><img src="~/Content/UserProfileImages/@user.profilePic" height="50" width="50" /><strong style="font-size:1.5em">@comments.firstName @comments.lastName</strong></div>
+                                                    <div id="cmnt" style="    text-align: center;
+    padding: 1px;
+    margin: 1px;
+    color: black;
+    border:solid 2px lightgray; border-radius: 25px;
+    background-image: url(images/paperBG.jpg);
+    background-position: left top;
+    background-repeat: repeat;
+    padding: 20px;  ">
+
+
+                                                        <p>&nbsp;&nbsp;&nbsp;@comments.comment1</p>
+                                                        <ul class="list-inline list-unstyled">
+
+                                                            <p style="text-align:left">
+                                                                &nbsp;&nbsp;&nbspRating:
+
+
+                                                                <span class="starRating" style="text-align:left">
+
+                                                                    @{
+                                                                        for (int j = 0; j < comments.rating; j++)
+                                                                        {
+
+                                                                            <input id="rating1" type="radio" name="rating" value="5-1">
+                                                                            <label for="rating1">1</label>
+
+
+                                                                        }
+                                                                    }
+
+                                                                </span>
+                                                            </p>
+
+
+
+                                                        </ul>
+                                                        <div style="text-align:right"> Date : @comments.date </div>
+                                                    </div>
+
+                                                                        }
+                                            }
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                                                                        }
+                    }
+
+
+
+
+
+                   
+                </div>
+            <div class="grid_4">
+                <h2>Our Hours</h2>
+                <div class="form_title color1">
+                    We are open 7 days a week - 8 AM to 12 PM <br>+1 101 889 9898
+                </div>
+             
+                   @using (Html.BeginForm("Reserve", "Hotel", FormMethod.Post, new { @id = "bookingForm" }))
+                   {
+                    @Html.HiddenFor(model => Model.Id)
+               
+                    @Html.HiddenFor(model => user.Id)
+                    <div class="tmInput">
+                        <input name="Name" placeHolder="Name:" type="text" data-constraints='NotEmpty Required AlphaSpecial'>
+                    </div>
+                    
+                    <div class="clear f_sep1"></div>
+                    <strong class="dt">Check-in</strong>
+                    <label class="tmDatepicker">
+                        <input type="datetime" name="Date1" placeHolder='10/05/2014' >
+                    </label>
+                    <div class="clear"></div>
+                    <strong class="dt">Check-out</strong>
+                    <label class="tmDatepicker">
+                        <input type="text" name="Date2" placeHolder='20/05/2014' data-constraints="NotEmpty Required Date">
+                    </label>
+                    <div class="clear"></div>
+                    <div class="fl1 ">
+                        <em>Adults</em>
+                        <select name="Adults" class="tmSelect auto" data-class="tmSelect tmSelect2" data-constraints="">
+                            <option>1</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
+                        <div class="clear height1"></div>
+
+
+                    </div>
+                    <div class="fl1">
+                        <em>Children</em>
+                        <select name="Children" class="tmSelect auto" data-class="tmSelect tmSelect2" data-constraints="">
+                            <option>0</option>
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                        </select>
+
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="tmTextarea">
+                        <textarea name="Message" placeHolder="Message:" data-constraints='NotEmpty Required Length(min=20,max=999999)'></textarea>
+                    </div>
+                    <div class="ta__right">
+                       @{
+                           if (user == null )
+                           {
+                           
+                            @Html.ActionLink("Please Register First", "Login" , "Home",null, new { @name = "button", @class="button1", @style="background-color:#008000" })
+                           }
+                           else if (user != null && user.type.Equals("User"))
+                           {
+                            <button type="submit" name="button1" class="button1" value="Send" style="background-color:#008000">Clear </button>
+                            <button type="submit" name="button2" class="button1" value="Send" style="background-color:#008000">Send </button>
+
+                           }
+                    }
+                        
+
+                    </div>
+                   }
+            </div>
+        </div>
+    </div>
+</section>
+

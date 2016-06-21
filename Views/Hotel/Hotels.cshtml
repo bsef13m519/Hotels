@@ -1,0 +1,83 @@
+﻿@model List<BYR.Models.Hotel>
+@{ViewBag.Action = "Hotels";}
+
+<script src="../Scripts/script.js"></script>
+<link rel="stylesheet" href="../Content/css/style.css">
+<link rel="stylesheet" href="../Content/css/stylesheet.css">
+
+<section class="content gallery pad1">
+    <div class="ic">More Website Templates  TemplateMonster.com - July 30, 2014!</div>
+    <div class="container">
+        <div class="row">
+            @{
+                if (Model.Count != 0)
+                {
+                    int i = 0;
+                    foreach (BYR.Models.Hotel hotel in Model)
+                    {
+                        <div class="grid_4">
+                            <div class="gall_block">
+                                <div class="maxheight">
+                                    <a href="~/Content/HotelImages/@hotel.picturePath" class="gall_item"><img  src="~/Content/HotelImages/@hotel.picturePath" width="368" height="250" alt=""></a>
+
+                                   
+                                    <div class="gall_bot">
+                                        <div class="text1">@Html.ActionLink(@hotel.name, "Reservation", "Home")</div>
+                                        
+                                        <p>
+                                            Admin Rating:  <span class="starRating">
+                                                @{ 
+                                                    int cout = hotel.adminRating;
+                                                    for (int j = 0; j < cout; j++)
+
+                                                    {
+
+                                                    
+
+                                                    <input id = "rating1" type = "radio" name = "rating" value = "5-1" >
+                                                           <Label for= "rating1" > 1 </label >
+                                                            
+                                                        }
+                                                
+                                                }
+
+                                            </span>
+                                        <br /><br/>
+                                            @hotel.description
+                                            <br>
+                                        </p>  
+                                        @Html.ActionLink("Click Here for More Detail", "Reservation", new { id = hotel.Id }, new { @class = "btn" })
+                                       @{ 
+                                           var user = (BYR.Models.User)Session["User"];
+
+                                           if(user !=null && user.type.Equals("Admin"))
+                                           {
+                                                @Html.ActionLink("Edit", "EditHotel","Admin" ,new { id = hotel.Id }, new { @class = "btn" })
+                                            @Html.ActionLink("Delete", "DeleteHotel", "Admin", new { id = hotel.Id }, new { @class = "btn" })
+
+                                           }
+                                    }
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        i++;
+                        if (i % 3 == 0)
+                        {
+                            <div class="clear sep__1"></div>
+                        }
+                    }
+                }
+                else
+                {
+                    <p>No Hotel Found</p>
+                }
+
+            }
+
+
+
+        </div>
+    </div>
+</section>

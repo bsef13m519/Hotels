@@ -1,0 +1,151 @@
+﻿@model BYR.Models.Hotel
+
+<!-- Top content -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,700">
+<link rel="stylesheet" href="~/Content/css/assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="~/Content/css/assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="~/Content/css/assets/css/animate.css">
+<link rel="stylesheet" href="~/Content/css/assets/css/style.css">
+<link rel="stylesheet" href="~/Content/css/assets/css/media-queries.css">
+
+<div class="top-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3 r-form-1-box wow fadeInUp">
+                <div class="r-form-1-top">
+                    <div class="r-form-1-top-left">
+                        <h3>Add hotel</h3>
+                        <p>Fill in the form below Add a Hotel:</p>
+                    </div>
+                    <div class="r-form-1-top-right">
+                        <i class="fa fa-pencil"></i>
+                    </div>
+                </div>
+                <div class="r-form-1-bottom">
+                    @using (Html.BeginForm("AddHotel", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", Id = "signu" }))
+                    {
+                        @Html.HiddenFor(m => Model.Id)
+                       
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => Model.name, new { @placeholder = "Name...", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.name)
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => Model.description, new { @placeholder = "Description...", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.description)
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => Model.MaxPrice, new { @placeholder = "Price...", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.MaxPrice)
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => Model.address, new { @placeholder = "Address...", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.address)
+                        </div>
+                            <div align="center" id="emailN"></div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => Model.city, new { @placeholder = "City...", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => Model.city)
+                            </div>
+                            <div align="center" id="userN"></div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => Model.phoneNumber, new { @placeholder = "Phone Number...", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => Model.phoneNumber)
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => Model.faxNo, new { @placeholder = "Fax No...", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => Model.faxNo)
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => Model.adminRating, new { @placeholder = "Admin Rating...", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => Model.adminRating)
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.picturePath, new { type = "file", @class = "form-control", @align = "left", @style = "display:inline ; width:350px" })
+
+
+                                <img id="pic" align="right" height="70" width="70" style="margin-right:40px" src="../SiteImages/profile.jpg">
+                                @Html.ValidationMessageFor(m => Model.picturePath)
+                            </div>
+                            <div style="margin-top:40px" align="center" id="msgbox"></div>
+                            <button type="submit" id="btn_submit" class="btn">Add Hotel</button>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#username').focusout(function () {
+
+            var userName = $('#username').val();
+            if (userName != "") {
+
+
+                $('#userN').show();
+                $.getJSON("/Home/CheckUserName?UserName=" + userName, function (data) {
+
+                    if (data != "No") {
+                        $("#userN").fadeTo(200, 0.1, function () {
+                            $(this).html('User already exists').removeClass().addClass('myerror').fadeTo(900, 1);
+                        });
+
+
+
+                    }
+                    else {
+                        $("#userN").fadeTo(200, 0.1, function () {
+                            $(this).html('User Name is available').removeClass().addClass('myerror').fadeTo(900, 1);
+                        });
+
+                    }
+                });
+            }
+            else {
+                $("#userN").html('');
+            }
+        });
+
+        $('#email').focusout(function () {
+
+            var email = $('#email').val();
+            if (email != "") {
+
+                //alert('User Name ='+ userName);
+
+                $.getJSON("/Home/checkEmail?email=" + email, function (data) {
+
+                    if (data) {
+                        $("#emailN").fadeTo(200, 0.1, function () {
+                            $(this).html('Email already exists').removeClass().addClass('myerror').fadeTo(900, 1);
+                        });
+
+                    }
+                    else {
+
+
+                        $("#emailN").fadeTo(200, 0.1, function () {
+                            $(this).html('Email is available').removeClass().addClass('myerror').fadeTo(900, 1);
+                        });
+
+                    }
+                });
+            }
+            else {
+                $("#emailN").html('');
+            }
+        });
+
+    });
+
+</script>
+<script src="~/Content/css/assets/js/jquery-1.11.1.min.js"></script>
+<script src="~/Content/css/assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/Content/css/assets/js/jquery.backstretch.min.js"></script>
+<script src="~/Content/css/assets/js/wow.min.js"></script>
+<script src="~/Content/css/assets/js/retina-1.1.0.min.js"></script>
+<script src="~/Content/css/assets/js/scripts.js"></script>

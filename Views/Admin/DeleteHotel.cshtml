@@ -1,0 +1,11 @@
+﻿@model BYR.Models.Hotel
+@{
+    ViewBag.Title = "SureDelete";
+}
+<div align="Center">
+    <h2 >Are You Sure You Want to Delete @Model.name </h2>
+
+    @Html.ActionLink("Yes","ConfirmDeleteHotel", new { id = Model.Id})
+    @Html.ActionLink("No", "Hotels", "Hotel")
+</div>
+

@@ -1,0 +1,334 @@
+﻿@using BYR.Models
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Home</title>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="~//Content/css/stuck.css">
+    <link rel="shortcut icon" href="images/favicon.ico" />
+    <link rel="stylesheet" href="~/Content/css/style.css">
+    <link rel="stylesheet" href="~/Content/css/touchTouch.css">
+    <link rel="stylesheet" href="~/Content/css/searchbar.css">
+    <link rel="stylesheet" href="~/Content/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="~/Content/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="~/Content/css/bootstrap.css">
+    <link rel="stylesheet" href="~/Content/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/fonts/font-awesome.css">
+    <link rel="stylesheet" href="~/Content/css/booking.css">
+    
+    
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.js"></script>
+    <script src="~/Scripts/jquery-migrate-1.1.1.js"></script>
+    <script src="~/Scripts/script.js"></script>
+    <script src="~/Scripts/superfish.js"></script>
+    <script src="~/Scripts/jquery.equalheights.js"></script>
+    <script src="~/Scripts/jquery.mobilemenu.js"></script>
+    <script src="~/Scripts/jquery.easing.1.3.js"></script>
+    <script src="~/Scripts/tmStickUp.js"></script>
+    <script src="~/Scripts/jquery.ui.totop.js"></script>
+    <script src="~/Scripts/touchTouch.jquery.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+   
+    <script src="~/Scripts/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="~/Scripts/jquery.fancyform.js"></script>
+    <script src="~/Scripts/jquery.placeholder.js"></script>
+    <script src="~/Scripts/regula.js"></script>
+    
+    
+  
+
+    <script>
+
+
+        $(document).ready(function () {
+
+            $().UItoTop({ easingType: 'easeOutQuart' });
+            $('#stuck_container').tmStickUp({});
+            $('.gallery .gall_item').touchTouch();
+
+
+
+  });
+    </script>
+
+
+ 
+   
+
+    <!--[if lt IE 9]>
+     <div style=' clear: both; text-align:center; position: relative;'>
+       <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+         <img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." />
+       </a>
+    </div>
+    <script src="js/html5shiv.js"></script>
+    <link rel="stylesheet" media="screen" href="css/ie.css">
+
+
+    <![endif]-->
+</head>
+
+<body class="page1" id="top">
+    <!--==============================
+                  header
+    =================================-->
+    <header>
+        <!--==============================
+                    Stuck menu
+        =================================-->
+        <section id="stuck_container">
+            <div class="container">
+                <div class="row">
+                    <div class="grid_12">
+                        <h1>
+                            <a href="~/Home/Index">
+                                <img src="~/Content/SiteImages/logo.png" height="120" width="120" alt="Logo alt">
+                            </a>
+                        </h1>
+                        <div class="navigation" style="float:none ; margin-left:70px">
+                            <nav>
+                                <ul class="sf-menu" style=" margin-left:150px">
+@{
+    var session = (User)Session["User"];
+    if (session != null && session.type.Equals("Admin"))
+    {
+
+        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Home" ? "active" : "")">@Html.ActionLink("Home", "Index", "Admin")</li>
+        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "AddHotel" ? "active" : "")">@Html.ActionLink("Add Hotel", "AddHotel", "Admin")</li>
+
+        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "BlockUnBlockUser" ? "active" : "")">@Html.ActionLink("Block/Unblock User", "BlockUnBlockUser", "Admin")</li>
+
+    }
+    else
+    {
+
+                                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Home" ? "active" : "")">@Html.ActionLink("Home", "Index", "Home")</li>
+                                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Hotels" ? "active" : "")">@Html.ActionLink("Hotels", "Hotels", "Hotel")</li>
+                                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")">@Html.ActionLink("Contact", "Contact", "Home")</li>
+
+    }
+
+    if (session != null)
+    {
+        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Profile" ? "active" : "")">@Html.ActionLink(@session.firstName+"'s Profile", "EditProfile", new { id = session.Id})</li>
+
+                                        <li><img src="~/Content/UserProfileImages/@session.profilePic" height="80" width="80" alt="Logo alt"/></li>
+                                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Login" ? "active" : "")">@Html.ActionLink("Logout", "Logout", "Home")</li>
+                                        }
+                                        else
+                                        {
+                                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Login" ? "active" : "")">@Html.ActionLink("Login", "Login", "Home")</li>
+                                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "SignUp" ? "active" : "")">@Html.ActionLink("SignUp", "SignUp", "Home")</li>
+
+                                        }
+
+
+                                    }
+                                </ul>
+                            </nav> 
+                            @{
+                                if (session != null && session.type.Equals("Admin"))
+                                {
+                                    <br /><br /><br />
+                                }
+                            }
+                           
+                            <div id="wrap" style="float:right ; margin-left:20px">
+                                @using (Html.BeginForm("Hotels", "Hotel", FormMethod.Post))
+                                {
+                                    <input style="margin-right:10px ; height:45px ; background:none ; border:none" id="search" name="search" type="text" placeholder="Search by City..."><input name="search_submit" value="Rechercher" type="submit">
+                                }
+
+
+
+                                <div class="clear"></div>
+                            </div>
+                            
+                                </div>
+                       
+
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </header>
+
+
+      @*  <!-- MODAL Sign up -->
+            <div class="modal fade" id="modal-register" tabindex="-1" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                            </button>
+                            <h3 class="modal-title" id="modal-register-label">Sign up now</h3>
+                            <p>Fill in the form below to get instant access:</p>
+                        </div>
+
+                        <div class="modal-body">
+
+
+        @using (Html.BeginForm("SignUp", "Home", FormMethod.Post, new { enctype = "multipart/form-data",Id="signu" }))
+    {
+                            @Html.HiddenFor(m => Model.Id)
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => Model.firstName , new {@placeholder = "First name...",@class = "form-control"  })
+                                @Html.ValidationMessageFor(m => Model.firstName)
+                                </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => Model.lastName , new { @placeholder = "Last name...", @class = "form-control" })
+                               @Html.ValidationMessageFor(m => Model.lastName)
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => Model.email, new { @placeholder = "Email...", @class = "form-control" })
+                               @Html.ValidationMessageFor(m => Model.email)
+                            </div>
+                            <div align="center" id="emailN"></div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => Model.username, new { @placeholder = "Username...", @class = "form-control"})
+                             @Html.ValidationMessageFor(m => Model.username)
+                            </div>
+                            <div align="center" id="userN"></div>
+                            <div class="form-group">
+                                @Html.PasswordFor(m => Model.password, new { @placeholder = "Password...", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.password)
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => Model.secQ, new { @placeholder = "Secret Question...", @class = "form-control"})
+                           @Html.ValidationMessageFor(m => Model.secQ)
+                             </div>
+                            <div class="form-group">
+                                @Html.PasswordFor(m => Model.secA, new { @placeholder = "Secret Answer...", @class = "form-control"})
+                            @Html.ValidationMessageFor(m => Model.secA)
+                             </div>
+                            <div class="form-group">
+                               @Html.TextBoxFor(m => m.profilePic, new { type = "file", @class = "form-control" ,@align="left", @style = "display:inline ; width:350px" })
+                              @Html.ValidationMessageFor(m => Model.profilePic)
+                                  <img id="pic" align ="right" height="70" width="70" style="margin-right:40px" src="~/SiteImages//profile.jpg" >
+                            </div>
+                            <div style="margin-top:40px" align="center" id="msgbox"></div>
+                          <button type="submit" id="btn_submit" class="btn">Sign me up!</button>
+      }
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        </button>
+                        <h3 class="modal-title" id="modal-register-label">Login In </h3>
+                        <p>Enter Username And Password:</p>
+                    </div>
+
+                    <div class="modal-body">
+
+                       @using (Html.BeginForm("Login", "Home", FormMethod.Post , new { Id="login"}))
+                       {
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => Model.username, new { @placeholder = "Username...", @class = "form-control",Id="usernameL", @required = "required" })
+                            </div>
+                            <div class="form-group">
+                                @Html.PasswordFor(m => Model.password, new { @placeholder = "Password...", @class = "form-control",Id="passwordL", @required = "required" })
+                            </div>
+
+                                <p align="right">Forgot your password? <a data-dismiss="modal" class="launch-modal" data-modal-id="modal-forget" href="#modal-forget">click here</a></p>
+
+                                <div  align="center" id="msgbox1"></div>
+                                <button  type="submit" class="btn">Login!</button>
+                       }
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal-forget" tabindex="-1" role="dialog" aria-labelledby="modal-forget-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        </button>
+                        <h3 class="modal-title" id="modal-register-label">Forget Passord? </h3>
+                        <p>Enter Your Username :</p>
+                    </div>
+
+                    <div class="modal-body">
+
+                        @using (Html.BeginForm("CheckUserName", "Home", FormMethod.Post, new { Id = "forget" }))
+                        {
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => Model.username, new { @placeholder = "Username...", @class = "form-control", Id = "usernameF", @required = "required" })
+
+                            </div>
+
+                            <div id="secrQ" >Secret Question :</div>
+
+
+                                <div id="secrQuestion" ></div>
+                                <div class="form-group">
+                                    @Html.PasswordFor(m => Model.secA, new { @placeholder = "Secret Answer...", @class = "form-control", Id = "seqF", @required = "required" })
+                                </div>
+
+                                    <div align="center" id="msgbox3"></div>
+                                    <button id ="forgetBtn" type="submit" class="btn">Find Your Password!</button>
+                                    }
+
+
+                                </div>
+                </div>
+            </div>
+        </div>*@
+
+    <div id="replace">
+        @RenderBody()
+    </div>
+
+
+    <script>
+  
+
+    </script>
+
+    <!--==============================
+                  footer
+    =================================-->
+    <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="grid_11">
+                    <div class="socials">
+                        <a href="#" class="fa fa-twitter"></a>
+                        <a href="#" class="fa fa-facebook"></a>
+                        <a href="#" class="fa fa-google-plus"></a>
+                        <a href="#" class="fa fa-pinterest"></a>
+                    </div>
+                    <div class="copyright">
+                        <span class="brand">BYR </span> &copy; <span id="copyright-year"></span> | <a href="#">Privacy Policy</a> <div>Website designed by <a href="http://www.templatemonster.com/" rel="nofollow">HANB</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

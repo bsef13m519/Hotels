@@ -1,0 +1,9 @@
+﻿@model BYR.Models.User
+@{
+    ViewBag.Title = "SureDelete";
+}
+<div align="Center">
+    <h2>Are You Sure You Want to Delete @Model.firstName @Model.lastName </h2>
+    @Html.ActionLink("Yes", "ConfirmDeleteUser", new { id = Model.Id })
+    @Html.ActionLink("No", "BlockUnBlockUser", "Admin")
+</div>
